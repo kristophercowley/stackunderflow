@@ -1,3 +1,12 @@
-app.constant('CONSTANTS', {
-	fbRef: 'https://stackunderflow.firebaseio.com/' 
+
+
+app.constant('CONSTANTS', function(){ 
+	var root = 'https://stackunderflow.firebaseio.com/';
+	var questions = root + 'questions/'
+	var tags = root + 'tags/' 
+	return {
+		fbRef: root,
+		questions: questions,
+		tags: tags
+	}
 });

@@ -65,6 +65,15 @@ app.service('AuthService', function ($rootScope, $firebaseObject, CONSTANTS) {
 		$rootScope.member = $firebaseObject(new Firebase(CONSTANTS.fbRef + 'users/' + id));
 		cb? cb() : '';
 	}
+	
+	function createUser(authData, user){
+		var userToAdd = {
+				email: user.email,
+				reputation: 0,
+				created: Date.now()
+			}
+			db.child('users').child(authData.uid).update(userToAdd);
+	}
 
 	this.authMember = authMember;
 
@@ -73,6 +82,7 @@ app.service('AuthService', function ($rootScope, $firebaseObject, CONSTANTS) {
 			if (err) {
 				return cb(err)
 			}
+			createUser(authData, user);
 			authMember(cb);
 		});
 	}
