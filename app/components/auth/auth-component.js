@@ -1,0 +1,97 @@
+/* global Firebase */
+app.controller('LoginController', function ($scope, $state, AuthService) {
+
+	$scope.login = function () {
+		clearErr();
+		AuthService.login($scope.user, handleDBResponse);
+	};
+
+	$scope.register = function () {
+		clearErr();
+		AuthService.register($scope.user, handleDBResponse);
+	};
+
+	$scope.facebookLogin = function () {
+		clearErr();
+		AuthService.facebookLogin(handleDBResponse);
+	};
+
+	function clearErr(){
+		$scope.authErr = '';
+	}
+
+	function handleDBResponse(err) {
+		if (err) {
+			$scope.authErr = err.message;
+			$scope.$apply();
+		} else {
+			$state.go('auth.dashboard');
+		}
+	}
+});
+
+app.controller('AuthController', function ($rootScope, $state, AuthService) {
+	//Redirect if Unable to Authenticate
+	if (!$rootScope.member) {
+		AuthService.authMember(function (err) {
+			if (err) {
+				//TODO: TOAST ERROR
+				$state.go('login');
+			}
+		});
+	}
+});
+
+
+app.service('AuthService', function ($rootScope, $firebaseObject, CONSTANTS) {
+
+	var db = new Firebase(CONSTANTS.fbRef)
+
+	function authMember(cb) {
+		var authData = db.getAuth();
+		if (authData) {
+			var id = authData.uid;
+			if (id.indexOf(':') > -1) {
+				var cutOffProviderIndex = authData.uid.indexOf(':') + 1;
+				id = id.slice(cutOffProviderIndex);
+			}
+			setMember(id, cb);
+		} else {
+			cb ? cb({ error: { message: 'Unable to Authenticate' } }) : '';
+		}
+	}
+
+	function setMember(id, cb) {
+		$rootScope.member = $firebaseObject(new Firebase(CONSTANTS.fbRef + 'users/' + id));
+		cb? cb() : '';
+	}
+
+	this.authMember = authMember;
+
+	this.register = function (user, cb) {
+		db.createUser(user, function (err, authData) {
+			if (err) {
+				return cb(err)
+			}
+			authMember(cb);
+		});
+	}
+
+	this.login = function (user, cb) {
+		db.authWithPassword(user, function (err, authData) {
+			if (err) {
+				return cb(err)
+			}
+			authMember(cb);
+		})
+	}
+
+	this.facebookLogin = function (cb) {
+		db.authWithOAuthPopup('facebook', function (err, authData) {
+			if (err) {
+				return cb(err)
+			}
+			authMember(cb);
+		})
+	}
+});
