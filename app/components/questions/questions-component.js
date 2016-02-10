@@ -9,13 +9,13 @@ app.controller('QuestionsController', function($rootScope, $scope, DataService){
 	
 	/**
 	 * $scope.addQuestion = function(newQuestion){
-	 * 	newQuestion.memberId = $rootScope.member.uid;
+	 * 	newQuestion.memberId = $rootScope.member.$id;
 	 * 	$scope.questions.$add(newQuestion).then(function(ref){
 	 * 	  //Add the newly added question to the member object	
 	 * 	  $rootScope.member.questions = $rootScope.member.questions || {};
 	 *    //Another Dictonary structure all we are doing is adding the questionId to the member.questions dictionary.
 	 *    //To avoid duplicating data in our database we only store the questionId instead of the entire question again 
-	 *    $rootScope.member.questions[ref.id] = ref.id;
+	 *    $rootScope.member.questions[ref.key()] = ref.key();
 	 *    $rootScope.member.$save();
 	 *  })
 	 * }
@@ -70,13 +70,13 @@ app.controller('QuestionController', function($rootScope, $scope, question, comm
 	
 	/**
 	 * $scope.addComment = function(newQuestion){
-	 * 	newComment.memberId = $rootScope.member.uid;
+	 * 	newComment.memberId = $rootScope.member.$id;
 	 * 	$scope.comments.$add(newQuestion).then(function(ref){
 	 * 	  //Add the newly added comment to the member object	
 	 * 	  $rootScope.member.comments = $rootScope.member.comments || {};
 	 *    //Another Dictonary structure all we are doing is adding the commentId to the member.comments dictionary.
 	 *    //To avoid duplicating data in our database we only store the commentId instead of the entire question again 
-	 *    $rootScope.member.comments[ref.id] = ref.id;
+	 *    $rootScope.member.comments[ref.key()] = ref.key();
 	 *    $rootScope.member.$save();
 	 *  })
 	 * }
