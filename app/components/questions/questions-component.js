@@ -53,7 +53,7 @@ app.controller('QuestionController', function($rootScope, $scope, question, comm
 	 * 
 	 * think of it this way 
 	 * 
-	 * $scope.question.votes[$rootScope.member.uid] = 1 || -1
+	 * $scope.question.votes[$rootScope.member.$id] = 1 || -1
 	 * 
 	 * This logic here should help keep your voteCount on track
 	 * $scope.question.voteCount = 0;
