@@ -1,2 +1,38 @@
-<h1>HELLO FROM THE DASHBOARD</h1>
-<p>We should now have a member Object {{member}}</p>
+<h1>Having a profile that you can't edit it boring</h1>
+<p>member Object: {{member}}</p>
+
+<p>This page needs some flair</p>
+<p>Try rendering to the screen all of the fields that will eventually be added to the $rootScope.member object</p>
+<p>For the MemberObject Schema look at the comments on this file</p>
+
+<!--
+	
+	Members are requesting a form where they can edit their memberObject.
+	items denoted with ** should be stored on the memberObject
+	howerever the edit form should not allow the Member to change these values 
+	
+	MemberObjectSchema
+	{
+		username: string,
+		firstName: string,
+		lastName: string,
+		imgUrl:  string,
+		country: string,
+		bio: string,
+		websiteUrl: string,
+		github: string,
+		twitterHandle: string,
+		favoriteTags: [tag], // <--- BONUS: use commas in the input field to add multiple tags. Or Look at multiselect inputs
+		**accountCreated: date,
+		**upVotes: number,
+		**downVotes: number,
+		**reputation: number,
+		**questions: [questionId]
+		**answers: [answerId],
+		**comments: [commentId]
+		//Add anything else you think would be a cool feature to track
+	}
+
+	WARNING: Firebase will not allow you to add null properties to any object. When you need the specific field you can simple create it and pass its value. 	
+
+-->

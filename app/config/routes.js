@@ -22,10 +22,21 @@ app.config(function($stateProvider, $urlRouterProvider){
 		controllerAs: 'qsc'
 	})
 	.state('question', {
-		url: '/question/:id',
+		url: '/questions/:id',
 		templateUrl: 'app/components/questions/question.html',
 		controller: 'QuestionController',
-		controllerAs: 'qc'
+		controllerAs: 'qc',
+		resolve: {
+			question: function($stateParams, DataService){
+				return DataService.getQuestion($stateParams.id);
+			},
+			comments: function($stateParams, DataService){
+				return DataService.getComments($stateParams.id);
+			},
+			responses: function($stateParams, DataService){
+				return DataService.getResponses($stateParams.id);
+			}
+		}
 	})
 	.state('auth', {
 		url: '/user',
@@ -39,4 +50,10 @@ app.config(function($stateProvider, $urlRouterProvider){
 		controller: 'DashboardController',
 		controllerAs: 'dc'
 	})
+})
+
+app.run(function($rootScope, $state, AuthService){
+	$rootScope.$on('$stateChangeStart', function(event, toState, toStateParams){
+		AuthService.authMember();
+	});
 })

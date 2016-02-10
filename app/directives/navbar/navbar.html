@@ -1,0 +1,32 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" ui-sref="auth.dashboard"><img src="/assets/img/stackunderflow.png"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a ui-sref="login" ng-if="!member">Login</a></li>
+        <li><a ui-sref="questions">View Questions</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right" ng-if="member">
+        <li class="dropdown">
+          <a ng-click="showDropDown = !showDropDown" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="{{showDropDown}}">{{member.username}} Profile<span class="caret"></span></a>
+          <ul class="dropdown-menu" ng-style="{'display': showDropDown ? 'block': 'none'}">
+            <li><a ui-sref="auth.dashboard" ng-click="showDropDown = false">Dashboard</a></li>
+            <li role="separator" class="divider"></li>
+						<li><a ng-click="logout()" ng-click="showDropDown = false" style="cursor: pointer">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

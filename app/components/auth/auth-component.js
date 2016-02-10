@@ -58,6 +58,7 @@ app.service('AuthService', function ($rootScope, $firebaseObject, CONSTANTS) {
 			setMember(id, cb);
 		} else {
 			cb ? cb({ error: { message: 'Unable to Authenticate' } }) : '';
+			return true;
 		}
 	}
 
@@ -96,12 +97,9 @@ app.service('AuthService', function ($rootScope, $firebaseObject, CONSTANTS) {
 		})
 	}
 
-	this.facebookLogin = function (cb) {
-		db.authWithOAuthPopup('facebook', function (err, authData) {
-			if (err) {
-				return cb(err)
-			}
-			authMember(cb);
-		})
+	this.logout = function(){
+		db.unauth();
+		$rootScope.member = null;
 	}
+	
 });

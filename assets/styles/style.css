@@ -1,0 +1,14 @@
+.text-white{
+	color: aliceblue;
+}
+
+.content-container{
+	min-height: 800px;
+}
+
+.stacked-footer{
+	padding-top: 80px;
+	min-height: 250px;
+	color: aliceblue;
+	background-color: #222;
+}
