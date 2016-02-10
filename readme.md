@@ -1,4 +1,4 @@
-![StackUnderflow](assets/img/stackunderflow.png)
+![StackUnderflow](assets/img/stackunderflow-alt.png)
 ================================================
 
 Step 1: The Requirements
