@@ -1,10 +1,36 @@
-<h1>Having a profile that you can't edit it boring</h1>
-<p>member Object: {{member}}</p>
+<h1>Welcome to your Dashboard {{member.username}}<button class="btn btn-warning pull-right" ng-click="showSubmit = !showSubmit">Show/Hide Edit Form</button>
+</h1>
+<!--<p>member Object: {{member}}</p>-->
 
-<p>This page needs some flair</p>
+<!--<p>This page needs some flair</p>
 <p>Try rendering to the screen all of the fields that will eventually be added to the $rootScope.member object</p>
-<p>For the MemberObject Schema look at the comments on this file</p>
+<p>For the MemberObject Schema look at the comments on this file</p>-->
 
+<form ng-submit="editMember()" class="form-group" ng-show="showSubmit">
+	<label>Username</label>
+	<input placeholder="Username" type="text" class="form-control" ng-model="member.username">
+	<label>First Name</label>
+	<input placeholder="First Name" type="text" class="form-control" ng-model="member.firstName">
+	<label>Last Name</label>
+	<input placeholder="Last Name" type="text" class="form-control" ng-model="member.lastName">
+	<label>Image Url</label>
+	<input placeholder="Image Url" type="text" class="form-control" ng-model="member.imageUrl">
+	<label>Country</label>
+	<input placeholder="Country" type="text" class="form-control" ng-model="member.country">
+	<label>Bio</label>
+	<input placeholder="bio" type="text" class="form-control" ng-model="member.bio">
+	<label>Website Url</label>
+	<input placeholder="Website Url" type="text" class="form-control" ng-model="member.websiteUrl">
+	<label>Github</label>
+	<input placeholder="Github" type="text" class="form-control" ng-model="member.github">
+	<label>Twitter Handle</label>
+	<input placeholder="Twitter Handle" type="text" class="form-control" ng-model="member.twitterHandle">
+	<label>Favorite Tags</label>
+	<input placeholder="Favorite Tags" type="text" class="form-control" ng-model="member.favoriteTags">
+	<div class="btn-group">
+		<button class="btn btn-primary" type="submit">Submit</button>
+	</div>
+</form>
 <!--
 	
 	Members are requesting a form where they can edit their memberObject.

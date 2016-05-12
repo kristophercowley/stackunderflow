@@ -9,3 +9,35 @@
 <p>Only the member who posted the the questions/answers/comments can edit their content</p>
 <p>A member may only upvote the questions/answers/comments once.</p>
 <p>A member can change their vote to either up or down but may not vote both ways.</p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <!--<div>Question: {{question}}</div>-->
+            <ul class="list-group">
+                <li class="list-group-item card">
+                    <h2>Question Name: {{question.name}} </h2>
+                    <hr>
+                    <span class="btn-group pull-right"> <button class="btn btn-success glyphicon glyphicon-minus" ng-click="question.voteCount-=1"></button> 
+                    <button class="btn btn-success" >-{{question.voteCount}}-</button>
+                    <button class="btn btn-success glyphicon glyphicon-plus" ng-click="question.voteCount+=1"></button>
+                    </span>
+                    <br>Question Title: {{question.title}}
+                    <br>Question Body: {{question.body}}
+                    <br>Member Id: {{question.memberId}}
+                    <br>q id {{question.$id}}
+                    <ul class="list-group">
+                        <li class="list-group-item card" ng-repeat="comment in comments">
+                            {{comment}}
+                            <ul class="list-group">
+                                <li class="list-group-item" ng-repeat="response in responses">
+                                    {{response}}
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </li>
+            </ul>
+        </div>
+       
+</div>
