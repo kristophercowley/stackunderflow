@@ -7,9 +7,18 @@ app.controller('QuestionsController', function ($rootScope, $scope, DataService)
 	$scope.tags = DataService.getTags();
 	$scope.questions = DataService.getQuestions();
 
+	$scope.deleteQ = function (index) {
+		console.log(index)
+		$scope.questions.$remove(index);
+	}
 
 	$scope.addQuestion = function (newQuestion) {
 		newQuestion.memberId = $rootScope.member.$id;
+		newQuestion.posted = Date.now();
+		newQuestion.author = $rootScope.member.username || "";
+		// newQuestion.answeredOn;
+		newQuestion.answered = false;
+		newQuestion.tags = ["programming","stupid question", "asking for a friend"]
 		$scope.questions.$add(newQuestion).then(function (ref) {
 			//Add the newly added question to the member object	
 			$rootScope.member.questions = $rootScope.member.questions || {};
@@ -64,41 +73,85 @@ app.controller('QuestionController', function ($rootScope, $scope, question, com
 	 * Don't forget to call $scope.question.$save() after updating the question properties
 	 * Also anytime you update $rootScope.member don't forget $rootScope.member.$save() to write it to the db
 	 * */
+
+
 	$scope.question = question;
 	$scope.comments = comments;
 	$scope.responses = responses;
 
-	$scope.question.voteCount = 0;
+	// Declares variables
+	// $scope.question.votes = {};
+	// $scope.question.votes[$rootScope.member.$id] = 1 || -1;
+	// $scope.question.$save()
+
+	// Voting Function
+	$rootScope.takeVote = function (question, v) {
+		console.log(question, v);
+		question.votes = question.votes || {};
+		question.votes[$rootScope.member.$id] = v;
+		console.log(question.votes)
+		countVotes(question);
+		$scope.question.$save()
+
+	}
+
+	function countVotes(question) {
+		for (var key in $scope.question.votes) {
+			question.voteCount = 0;
+			// console.log($scope.question.voteCount)
+			question.voteCount += question.votes[key];
+		}
+	}
+
+
+
+	$scope.addComment = function (newComment) {
+		console.log(newComment)
+		newComment.memberId = $rootScope.member.$id;
+		$scope.comments.$add(newComment).then(function (ref) {
+			//Add the newly added comment to the member object	
+			$rootScope.member.comments = $rootScope.member.comments || {};
+			//Another Dictonary structure all we are doing is adding the commentId to the member.comments dictionary.
+			//To avoid duplicating data in our database we only store the commentId instead of the entire question again 
+			$rootScope.member.comments[ref.key()] = ref.key();
+			$rootScope.member.$save();
+		})
+	}
+	$scope.addResponse = function (newResponse) {
+		newResponse.memberId = $rootScope.member.$id;
+		$scope.responses.$add(newResponse).then(function (ref) {
+			//Add the newly added question to the member object	
+			$rootScope.member.responses = $rootScope.member.responses || {};
+			//Another Dictonary structure all we are doing is adding the questionId to the member.questions dictionary.
+			//To avoid duplicating data in our database we only store the questionId instead of the entire question again 
+			$rootScope.member.responses[ref.key()] = ref.key();
+			$rootScope.member.$save();
+		})
+	}
 	
+	$rootScope.markAnswered = function(question,comment){
+		 question.answered = !question.answered;
+		 comment.correctAnswer = question.answered
+		question.answeredOn = Date.now();
+		question.answeredBy = $rootScope.member.$id
 		
 	
-	  for(var key in $scope.question.votes){
-	 	$scope.question.voteCount += $scope.question.votes[key];
-	  }
-	
-	/**
-	 * $scope.addComment = function(newQuestion){
-	 * 	newComment.memberId = $rootScope.member.$id;
-	 * 	$scope.comments.$add(newQuestion).then(function(ref){
-	 * 	  //Add the newly added comment to the member object	
-	 * 	  $rootScope.member.comments = $rootScope.member.comments || {};
-	 *    //Another Dictonary structure all we are doing is adding the commentId to the member.comments dictionary.
-	 *    //To avoid duplicating data in our database we only store the commentId instead of the entire question again 
-	 *    $rootScope.member.comments[ref.key()] = ref.key();
-	 *    $rootScope.member.$save();
-	 *  })
-	 * }
-	 * question Schema
-	 * {
-	 *  title: string,
-	 *  body: string,
-	 *  votes: {memberId: number},
-	 *  author: string,
-	 *  posted: date,
-	 *  answeredOn: date,
-	 *  answered: bool, 
-	 *	tags: [tags] 
-	 * } 
-	 */
+		$scope.question.$save()
+		$scope.comments.$save(comment);
+		// $rootScope.member.$save()
+	}
+	/** 
+   * question Schema
+   * {
+   *  title: string,
+   *  body: string,
+   *  votes: {memberId: number},
+   *  author: string,
+   *  posted: date,
+   *  answeredOn: date,
+   *  answered: bool, 
+   *	tags: [tags] 
+   * } 
+   */
 
 });

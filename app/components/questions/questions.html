@@ -5,13 +5,23 @@
     <div class="row">
         <div class="col-sm-8">
             <ul class="list-group">
-                <li class="list-group-item card" ng-repeat="q in questions">
-                    <h2>Question Name: {{q.name}} <a class="btn btn-primary pull-right" ui-sref='question({id: q.$id})'>More</a></h2>
+                <li class="list-group-item card" ng-repeat="q in questions track by $index">
+                    <h2>Question Title: {{q.title}} 
+                        <span class="btn-group pull-right">
+                            <span class="btn pull-right badge" ng-show="q.answered">answered</span>
+                            <span class="btn pull-right badge" ng-show="!q.answered">unanswered</span>
+                            <button class="btn btn-danger" ng-show="member.$id == q.memberId" ng-click="deleteQ($index)">delete</button>
+                            <a class="btn btn-primary pull-right" ui-sref='question({id: q.$id})'>More</a>
+                        </span>
+                   </h2>
                     <hr>
-                    <br>Question Title: {{q.title}}
                     <br>Question Body: {{q.body}}
                     <br>Member Id: {{q.memberId}}
-                    <br>q id {{q.$id}}
+                    <br>Written by: {{q.author}}
+                    <h6>Tags</h6>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="tag in q.tags track by $index">{{tag}}</li>
+                    </ul>
                     <!--<br>{{q}}:::-->
                     <ul class="list-group">
                         <li class="list-group-item" ng-repeat="tag in tags"></li>
@@ -22,13 +32,14 @@
         <div class="col-sm-4 card">
             <h2>Submit a Question</h2>
             <form ng-submit="addQuestion(ask)" class="form-group">
-                <label>Title/Name:</label>
-                <input type="text" class="form-control" ng-model="ask.name">
+                <!--<label>Author:</label>
+                <input type="text" class="form-control" ng-model="ask.author">-->
                 <label>Title:</label>
                 <input type="text" class="form-control" ng-model="ask.title">
                 <label>Description:</label>
                 <textarea type="text" class="form-control" ng-model="ask.body">
                 </textarea>
+                <!--<input type="text" ng-model="ask.tags">-->
                 <button class="btn btn-block btn-primary">Submit</button>
             </form>
         </div>

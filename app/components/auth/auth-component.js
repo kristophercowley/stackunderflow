@@ -16,7 +16,7 @@ app.controller('LoginController', function ($scope, $state, AuthService) {
 		AuthService.facebookLogin(handleDBResponse);
 	};
 
-	function clearErr(){
+	function clearErr() {
 		$scope.authErr = '';
 	}
 
@@ -64,16 +64,21 @@ app.service('AuthService', function ($rootScope, $firebaseObject, CONSTANTS) {
 
 	function setMember(id, cb) {
 		$rootScope.member = $firebaseObject(new Firebase(CONSTANTS.fbRef + 'users/' + id));
-		cb? cb() : '';
+		cb ? cb() : '';
 	}
-	
-	function createUser(authData, user){
+
+	function createUser(authData, user) {
 		var userToAdd = {
-				email: user.email,
-				reputation: 0,
-				created: Date.now()
-			}
-			db.child('users').child(authData.uid).update(userToAdd);
+			email: user.email,
+			reputation: 0,
+			created: Date.now()
+		}
+		// original code
+		// db.child('users').child(authData.uid).update(userToAdd);
+		
+		// alleged fix
+		db.child('users').child(authData.uid).set(userToAdd);
+
 	}
 
 	this.authMember = authMember;
@@ -97,9 +102,9 @@ app.service('AuthService', function ($rootScope, $firebaseObject, CONSTANTS) {
 		})
 	}
 
-	this.logout = function(){
+	this.logout = function () {
 		db.unauth();
 		$rootScope.member = null;
 	}
-	
+
 });

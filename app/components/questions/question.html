@@ -1,6 +1,6 @@
-<h1>A SINGLE QUESTION VIEW</h1>
+<h1>A SINGLE QUESTION VIEW FOR {{question.title}}</h1>
 
-<p>If we are logged in we should have a member obj {{member}}</p>
+<!--<p>If we are logged in we should have a member obj {{member}}</p>
 
 <h3>Question Rules</h3>
 <p>A member must be logged in to cast votes, ask questions, add responses, or add comments</p>
@@ -8,36 +8,86 @@
 <p>Only the member who posted the the questions can mark an answer as the correct answer</p>
 <p>Only the member who posted the the questions/answers/comments can edit their content</p>
 <p>A member may only upvote the questions/answers/comments once.</p>
-<p>A member can change their vote to either up or down but may not vote both ways.</p>
+<p>A member can change their vote to either up or down but may not vote both ways.</p>-->
 <div class="container">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 panel">
             <!--<div>Question: {{question}}</div>-->
             <ul class="list-group">
                 <li class="list-group-item card">
-                    <h2>Question Name: {{question.name}} </h2>
-                    <hr>
-                    <span class="btn-group pull-right"> <button class="btn btn-success glyphicon glyphicon-minus" ng-click="question.voteCount-=1"></button> 
-                    <button class="btn btn-success" >-{{question.voteCount}}-</button>
-                    <button class="btn btn-success glyphicon glyphicon-plus" ng-click="question.voteCount+=1"></button>
-                    </span>
-                    <br>Question Title: {{question.title}}
-                    <br>Question Body: {{question.body}}
-                    <br>Member Id: {{question.memberId}}
-                    <br>q id {{question.$id}}
-                    <ul class="list-group">
-                        <li class="list-group-item card" ng-repeat="comment in comments">
-                            {{comment}}
+                    <!--<hr>-->
+                    <div class="jumbotron">
+                        <span class="pull-right badge" ng-show="question.answered">answered</span>
+                        <span class="pull-right badge" ng-show="!question.answered">unanswered</span>
+                        <h2 class="well">Question Title: {{question.title}} </h2>
+                        <div class="well">
+                            <div class="btn-group pull-right well">
+                                <button class="btn btn-success glyphicon glyphicon-minus" ng-click="takeVote(question,-1)"></button>
+                                <button class="btn btn-success">-{{question.voteCount}}-</button>
+                                <button class="btn btn-success glyphicon glyphicon-plus" ng-click="takeVote(question,1)"></button>
+                            </div>
+                            <h3> Question Body: {{question.body}}</h3>
+                            <p>Written by: {{question.author}}</p>
+                            <!--<br>q id {{question.$id}}-->
+                            <h6>Tags</h6>
                             <ul class="list-group">
-                                <li class="list-group-item" ng-repeat="response in responses">
-                                    {{response}}
+                                <li class="list-group-item" ng-repeat="tag in question.tags track by $index">{{tag}}</li>
+                            </ul>
+                            <!--<br>{{q}}:::-->
+
+                        </div>
+                        <h3>Add a comment <button class="btn btn-primary pull-right" ng-click="commentShow = !commentShow">Open/Close</button></h3>
+
+                        <form ng-show="commentShow" class="well form-group" ng-submit="addComment(comment)">
+                            <label>Title</label>
+                            <input class="form-control" type="text" ng-model="comment.title">
+                            <label>Body</label>
+                            <textarea class="form-control" ng-model="comment.body" cols="30" rows="10"></textarea>
+                            <Button class="btn btn-success pull-right" type="submit" ng-click="commentShow = !commentShow">Add Comment</Button>
+                            <hr>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <ul class="list-group well">
+                                <hr>
+                                <h3 class="well">Comments...</h3>
+                                <li class="list-group-item card" ng-repeat="comment in comments">
+                                    <span class="btn pull-right" ng-show="member.$id == comment.memberId" ng-click="markAnswered(question,comment)">Mark as Correct Answer</span>
+                                    <h6><span ng-show="comment.correctAnswer">Correct Answer!</span></h6>
+                                    <h2 class="well"> {{comment.title}} 
+
+                                    </h2>
+                                    <hr>
+                                    <br>
+                                    <div class="well"> {{comment.body}} </div><br>
+                                    <div class="row well">
+                                        <h3 class="well">Add a response <button class="btn btn-primary pull-right" ng-click="responseShow = !responseShow">Open/Close</button></h3>
+                                        <form ng-show="responseShow" class="well form-group" ng-submit="addResponse(response)">
+                                            <label>Title</label>
+                                            <input class="form-control" type="text" ng-model="response.title">
+                                            <label>Body</label>
+                                            <textarea class="form-control" ng-model="response.body" cols="30" rows="10"></textarea>
+                                            <Button class="btn btn-success pull-right" type="submit" ng-click="responseShow = !responseShow">Add Response</Button>
+                                            <hr>
+                                        </form>
+                                    </div>
+                                    <div class="col-sm-10 well">
+                                        <ul class="list-group well">
+                                            <li class="list-group-item well" ng-repeat="response in responses">
+                                                <!--<h2 class="well">Response:{{response}}</h2>-->
+                                                <h3 class="well"> {{response.title}}</h3>
+                                                <p class="well"> {{response.body}}</p>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
 
                 </li>
             </ul>
         </div>
-       
-</div>
+
+    </div>
