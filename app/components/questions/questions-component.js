@@ -15,10 +15,11 @@ app.controller('QuestionsController', function ($rootScope, $scope, DataService)
 	$scope.addQuestion = function (newQuestion) {
 		newQuestion.memberId = $rootScope.member.$id;
 		newQuestion.posted = Date.now();
-		newQuestion.author = $rootScope.member.username || "";
+		newQuestion.author = $rootScope.member.username || "unknown";
+		newQuestion.imageUrl = $rootScope.member.imageUrl || "assets/img/profile.jpg";
 		// newQuestion.answeredOn;
 		newQuestion.answered = false;
-		newQuestion.tags = ["programming","stupid question", "asking for a friend"]
+		newQuestion.tags = ["programming", "stupid question", "asking for a friend"]
 		$scope.questions.$add(newQuestion).then(function (ref) {
 			//Add the newly added question to the member object	
 			$rootScope.member.questions = $rootScope.member.questions || {};
@@ -79,11 +80,6 @@ app.controller('QuestionController', function ($rootScope, $scope, question, com
 	$scope.comments = comments;
 	$scope.responses = responses;
 
-	// Declares variables
-	// $scope.question.votes = {};
-	// $scope.question.votes[$rootScope.member.$id] = 1 || -1;
-	// $scope.question.$save()
-
 	// Voting Function
 	$rootScope.takeVote = function (question, v) {
 		console.log(question, v);
@@ -128,17 +124,14 @@ app.controller('QuestionController', function ($rootScope, $scope, question, com
 			$rootScope.member.$save();
 		})
 	}
-	
-	$rootScope.markAnswered = function(question,comment){
-		 question.answered = !question.answered;
-		 comment.correctAnswer = question.answered
+
+	$rootScope.markAnswered = function (question, comment) {
+		question.answered = !question.answered;
+		comment.correctAnswer = question.answered
 		question.answeredOn = Date.now();
 		question.answeredBy = $rootScope.member.$id
-		
-	
 		$scope.question.$save()
 		$scope.comments.$save(comment);
-		// $rootScope.member.$save()
 	}
 	/** 
    * question Schema

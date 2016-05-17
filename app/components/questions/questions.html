@@ -1,36 +1,9 @@
-<h1>QUESTIONS</h1>
-
-<p>If we are logged in we should have a member obj {{member}}</p>
+<!--<p>If we are logged in we should have a member obj {{member}}</p>-->
+<!--<div> <img height="50px" style="border-radius:25px" src="{{member.imageUrl}}" alt="profile pic"></div>-->
 <div class="container">
     <div class="row">
-        <div class="col-sm-8">
-            <ul class="list-group">
-                <li class="list-group-item card" ng-repeat="q in questions track by $index">
-                    <h2>Question Title: {{q.title}} 
-                        <span class="btn-group pull-right">
-                            <span class="btn pull-right badge" ng-show="q.answered">answered</span>
-                            <span class="btn pull-right badge" ng-show="!q.answered">unanswered</span>
-                            <button class="btn btn-danger" ng-show="member.$id == q.memberId" ng-click="deleteQ($index)">delete</button>
-                            <a class="btn btn-primary pull-right" ui-sref='question({id: q.$id})'>More</a>
-                        </span>
-                   </h2>
-                    <hr>
-                    <br>Question Body: {{q.body}}
-                    <br>Member Id: {{q.memberId}}
-                    <br>Written by: {{q.author}}
-                    <h6>Tags</h6>
-                    <ul class="list-group">
-                        <li class="list-group-item" ng-repeat="tag in q.tags track by $index">{{tag}}</li>
-                    </ul>
-                    <!--<br>{{q}}:::-->
-                    <ul class="list-group">
-                        <li class="list-group-item" ng-repeat="tag in tags"></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="col-sm-4 card">
-            <h2>Submit a Question</h2>
+        <div class="col-sm-12 panel panel-default shadow">
+            <h2 class="center">Submit a Question</h2>
             <form ng-submit="addQuestion(ask)" class="form-group">
                 <!--<label>Author:</label>
                 <input type="text" class="form-control" ng-model="ask.author">-->
@@ -40,13 +13,54 @@
                 <textarea type="text" class="form-control" ng-model="ask.body">
                 </textarea>
                 <!--<input type="text" ng-model="ask.tags">-->
+                <br>
                 <button class="btn btn-block btn-primary">Submit</button>
             </form>
         </div>
+        <div class="col-sm-12 panel panel-primary shadow">
+            <h1 class="center">QUESTIONS</h1>
+
+            <ul class="list-group">
+                <li class="list-group-item panel panel-body panel-primary shadow" ng-repeat="q in questions track by $index">
+                    <h2>Question Title: {{q.title}} 
+                        <span class="btn-group pull-right">
+                            <button class="btn btn-danger" ng-show="member.$id == q.memberId" ng-click="deleteQ($index)">delete</button>
+                            <a class="btn btn-primary pull-right" ui-sref='question({id: q.$id})'>More Info..</a>
+                        </span>
+                   </h2>
+                    <div>
+                        <img height="50px" style="border-radius:25px" src="assets/img/profile.jpg" ng-show="!q.imageUrl" alt="profile pic">
+                        <img height="50px" style="border-radius:25px" ng-src="{{q.imageUrl}}" ng-show="q.imageUrl" alt="profile pic">
+                        <span>Author: {{q.author}}</span>
+                        <ul class="list-group pull-right">
+                            <li class="list-group-item">
+                                <span>votes: {{q.voteCount}}</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span ng-show="q.answered">answered</span>
+                                <span ng-show="!q.answered">unanswered</span>
+                            </li>
+                        </ul>
+
+
+
+                    </div>
+                    <hr>
+                    <br>Question Body: {{q.body}}
+                    <!--<br>Member Id: {{q.memberId}}-->
+                    <h6>Tags</h6>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="tag in q.tags track by $index">{{tag}}</li>
+                    </ul>
+                    <!--<br>{{q}}:::-->
+                </li>
+            </ul>
+        </div>
+
     </div>
 </div>
 
-<h2>Responsibilites</h2>
+<!--<h2>Responsibilites</h2>
 <p>It is your responsibility to get the questions from firebase to show up here.</p>
 <p>When the user clicks on a question it should navigate them to the question view. To accomplish this you will need to pass
     to the route the questions id. This can be accomplished with either ui-sref="question({id: question.id})" or ng-href="#/questions/{{question.id}}"</p>
@@ -54,4 +68,4 @@
     how many upvotes or downvotes the question itself has.</p>
 <p>The questions can be orderby max upvotes or by date created depending on the users choice.</p>
 <p>The question can be filtered based upon tags, unanswered</p>
-<p>No voting from this page.</p>
+<p>No voting from this page.</p>-->
