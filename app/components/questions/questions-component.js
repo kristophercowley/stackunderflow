@@ -17,9 +17,11 @@ app.controller('QuestionsController', function ($rootScope, $scope, DataService)
 		newQuestion.posted = Date.now();
 		newQuestion.author = $rootScope.member.username || "unknown";
 		newQuestion.imageUrl = $rootScope.member.imageUrl || "assets/img/profile.jpg";
+		// newQuestion.created = $rootScope.member.created || "unknown"
 		// newQuestion.answeredOn;
 		newQuestion.answered = false;
 		newQuestion.tags = ["programming", "stupid question", "asking for a friend"]
+		$scope.ask = null;
 		$scope.questions.$add(newQuestion).then(function (ref) {
 			//Add the newly added question to the member object	
 			$rootScope.member.questions = $rootScope.member.questions || {};
@@ -28,6 +30,22 @@ app.controller('QuestionsController', function ($rootScope, $scope, DataService)
 			$rootScope.member.questions[ref.key()] = ref.key();
 			$rootScope.member.$save();
 		})
+	}
+	
+
+
+
+	$scope.edit = function (question) {
+		$scope.edit.title = question.title;
+		$scope.edit.body = question.body;
+	}
+	$scope.submitEdit = function (q,edit) {
+		q.title = edit.title;
+		q.body = edit.body;
+		q.editedOn = Date.now();
+		q.edited = true;
+		$scope.questions.$save(q)
+
 	}
 	/** question Schema
 	* {
@@ -111,6 +129,7 @@ app.controller('QuestionController', function ($rootScope, $scope, question, com
 			//To avoid duplicating data in our database we only store the commentId instead of the entire question again 
 			$rootScope.member.comments[ref.key()] = ref.key();
 			$rootScope.member.$save();
+			$scope.comment = null;
 		})
 	}
 	$scope.addResponse = function (newResponse) {
@@ -122,6 +141,7 @@ app.controller('QuestionController', function ($rootScope, $scope, question, com
 			//To avoid duplicating data in our database we only store the questionId instead of the entire question again 
 			$rootScope.member.responses[ref.key()] = ref.key();
 			$rootScope.member.$save();
+			$scope.response = null;
 		})
 	}
 

@@ -44,14 +44,14 @@
             </li>
 
             <div class="panel panel-default shadow">
-                <h3 class=" text-shadow">Add a comment <button class="btn btn-primary pull-right" ng-click="commentShow = !commentShow">Open/Close</button></h3>
+                <h3 class=" text-shadow">Add a comment <button class="btn btn-primary pull-right shadow" ng-click="commentShow = !commentShow">Open/Close</button></h3>
 
                 <form ng-show="commentShow" class="form-group panel panel-default shadow" ng-submit="addComment(comment)">
                     <label>Title</label>
                     <input class="form-control" type="text" ng-model="comment.title">
                     <label>Body</label>
                     <textarea class="form-control" ng-model="comment.body" cols="30" rows="10"></textarea>
-                    <Button class="btn btn-success pull-right" type="submit" ng-click="commentShow = !commentShow">Add Comment</Button>
+                    <Button class="btn btn-success pull-right shadow" type="submit" ng-click="commentShow = !commentShow">Add Comment</Button>
                     <hr>
                 </form>
             </div>
@@ -61,22 +61,20 @@
                         <hr>
                         <h3 class="text-shadow center">Comments</h3>
                         <li class="list-group-item" ng-repeat="comment in comments">
-                            <span class="btn pull-right" ng-show="member.$id == comment.memberId" ng-click="markAnswered(question,comment)">Mark as Correct Answer</span>
+                            <span class="btn pull-right shadow" ng-show="member.$id == comment.memberId" ng-click="markAnswered(question,comment)">Mark as Correct Answer</span>
                             <h6><span ng-show="comment.correctAnswer">Correct Answer!</span></h6>
-                            <h2 class="">Title: {{comment.title}} 
-
-                                    </h2>
+                            <h2 class="">Title: {{comment.title}} </h2>
                             <hr>
                             <br>
                             <div class="">Comment: {{comment.body}} </div><br>
                             <div class="row shadow">
-                                <h3 class="text-shadow">Add a response <button class="btn btn-primary pull-right" ng-click="responseShow = !responseShow">Open/Close</button></h3>
+                                <h3 class="text-shadow">Add a response <button class="btn btn-primary pull-right shadow" ng-click="responseShow = !responseShow">Open/Close</button></h3>
                                 <form ng-show="responseShow" class="shadow form-group" ng-submit="addResponse(response)">
                                     <label>Title</label>
                                     <input class="form-control" type="text" ng-model="response.title">
                                     <label>Body</label>
                                     <textarea class="form-control" ng-model="response.body" cols="30" rows="10"></textarea>
-                                    <Button class="btn btn-success pull-right" type="submit" ng-click="responseShow = !responseShow">Add Response</Button>
+                                    <Button class="btn btn-success pull-right shadow" type="submit" ng-click="responseShow = !responseShow">Add Response</Button>
                                     <hr>
                                 </form>
                             </div>

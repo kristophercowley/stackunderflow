@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 panel panel-default shadow">
-            <h2 class="center">Submit a Question</h2>
+            <h2 class="center text-shadow">Submit a Question</h2>
             <form ng-submit="addQuestion(ask)" class="form-group">
                 <!--<label>Author:</label>
                 <input type="text" class="form-control" ng-model="ask.author">-->
@@ -14,46 +14,77 @@
                 </textarea>
                 <!--<input type="text" ng-model="ask.tags">-->
                 <br>
-                <button class="btn btn-block btn-primary">Submit</button>
+                <button class="btn btn-block btn-primary shadow">Submit</button>
             </form>
         </div>
         <div class="col-sm-12 panel panel-primary shadow">
-            <h1 class="center">QUESTIONS</h1>
+            <h1 class="center text-shadow">QUESTIONS</h1>
 
-            <ul class="list-group">
-                <li class="list-group-item panel panel-body panel-primary shadow" ng-repeat="q in questions track by $index">
-                    <h2>Question Title: {{q.title}} 
-                        <span class="btn-group pull-right">
-                            <button class="btn btn-danger" ng-show="member.$id == q.memberId" ng-click="deleteQ($index)">delete</button>
+            <li class="list-group-item panel panel-body panel-primary shadow" ng-repeat="q in questions track by $index">
+                <ul class="list-group">
+                    <div class="col-sm-12 panel panel-default shadow" ng-show="showEdit">
+                        <h2 class="center text-shadow">Edit a Question</h2>
+                        <form ng-submit="submitEdit(q,edit)" class="form-group">
+                            <label>Title:</label>
+                            <input type="text" class="form-control" ng-model="edit.title">
+                            <label>Description:</label>
+                            <textarea type="text" class="form-control" ng-model="edit.body">
+                </textarea>
+                            <!--<input type="text" ng-model="ask.tags">-->
+                            <br>
+                            <button class="btn btn-block btn-primary shadow" ng-click="showEdit = !showEdit">Submit</button>
+                        </form>
+                    </div>
+                    <h2 class="text-shadow">Question Title: {{q.title}} 
+                        <span class="btn-group pull-right shadow">
+                            <a class="btn btn-warning pull-right" ng-show="member.$id == q.memberId" ng-click="edit(q); showEdit = !showEdit">Edit</a>
+                            <button class="btn btn-danger shadow" ng-show="member.$id == q.memberId" ng-click="deleteQ($index)">delete</button>
                             <a class="btn btn-primary pull-right" ui-sref='question({id: q.$id})'>More Info..</a>
                         </span>
                    </h2>
                     <div>
                         <img height="50px" style="border-radius:25px" src="assets/img/profile.jpg" ng-show="!q.imageUrl" alt="profile pic">
                         <img height="50px" style="border-radius:25px" ng-src="{{q.imageUrl}}" ng-show="q.imageUrl" alt="profile pic">
-                        <span>Author: {{q.author}}</span>
-                        <ul class="list-group pull-right">
-                            <li class="list-group-item">
-                                <span>votes: {{q.voteCount}}</span>
-                            </li>
-                            <li class="list-group-item">
-                                <span ng-show="q.answered">answered</span>
-                                <span ng-show="!q.answered">unanswered</span>
-                            </li>
-                        </ul>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <ul class="list-group">
+                                    <li class="list-group-item">Author: {{q.author}}</li>
+                                    <!--<li class="list-group-item">Reputation: {{q.reputation}}</li>-->
+                                    <li class="list-group-item">Posted on: {{q.posted | date: 'MM/dd/yyyy'}}</li>
+
+                                </ul>
+                                <!--
+                                <span>Reputation: {{q.reputation}}</span>
+                                <span>Joined: {{q.created}}</span>
+                                <span>Posted on: {{q.posted | date: 'MM/dd/yyyy'}}</span>-->
+
+
+                            </div>
+                            <div class="col-sm-8">
+                                <ul class="list-group pull-right">
+                                    <li class="list-group-item">
+                                        <span class="text-shadow">votes: {{q.voteCount}}</span>
+                                    </li>
+                                    <li class="list-group-item text-shadow">
+                                        <span ng-show="q.answered">answered</span>
+                                        <span ng-show="!q.answered">unanswered</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
 
 
 
                     </div>
                     <hr>
-                    <br>Question Body: {{q.body}}
+                    <p class="">Question Body: {{q.body}}</p>
                     <!--<br>Member Id: {{q.memberId}}-->
-                    <h6>Tags</h6>
-                    <ul class="list-group">
+                    <h4 class="text-shadow">Tags</h4>
+                    <ul class="list-group shadow">
                         <li class="list-group-item" ng-repeat="tag in q.tags track by $index">{{tag}}</li>
                     </ul>
                     <!--<br>{{q}}:::-->
-                </li>
+            </li>
             </ul>
         </div>
 
