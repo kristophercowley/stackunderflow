@@ -23,3 +23,12 @@
 .text-shadow{
     text-shadow: 1px -1px 1px #666666;
 }
+edit-question{
+	z-index: 10;
+}
+body {
+	background: #cccccc;
+}
+.top-pad{
+	margin-top: 20px;
+}

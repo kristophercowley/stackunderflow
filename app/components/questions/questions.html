@@ -12,36 +12,39 @@
                 <label>Description:</label>
                 <textarea type="text" class="form-control" ng-model="ask.body">
                 </textarea>
-                <!--<input type="text" ng-model="ask.tags">-->
-                <br>
-                <button class="btn btn-block btn-primary shadow">Submit</button>
+                <label>Tags:</label>
+                <input type="text" class="form-control" ng-model="ask.tag1" placeholder="tag 1"> 
+                <input type="text" class="form-control" ng-model="ask.tag2" placeholder="tag 2"> 
+                <input type="text" class="form-control" ng-model="ask.tag3" placeholder="tag 3"> 
+                <button class="btn btn-block btn-primary shadow top-pad">Submit Question</button>
             </form>
         </div>
         <div class="col-sm-12 panel panel-primary shadow">
             <h1 class="center text-shadow">QUESTIONS</h1>
-
-            <li class="list-group-item panel panel-body panel-primary shadow" ng-repeat="q in questions track by $index">
+            <li class="list-group-item panel panel-body panel-primary shadow" ng-repeat="q in questions track by $index ">
                 <ul class="list-group">
-                    <div class="col-sm-12 panel panel-default shadow" ng-show="showEdit">
+                    <h2 class="text-shadow">Question Title: {{q.title}} 
+                        <span class="btn-group pull-right shadow">
+                            <button class="btn btn-danger shadow" ng-show="member.$id == q.memberId" ng-click="deleteQ($index)">Delete</button>
+                            <a class="btn btn-primary pull-right" ui-sref='question({id: q.$id})'>More Info..</a>
+                            <a class="btn btn-warning pull-right" ng-show="member.$id == q.memberId" ng-click="edit(q); showEdit = !showEdit">Edit</a>
+                        </span>
+                   </h2>
+                    <div class="col-sm-12 panel panel-default shadow edit-question" ng-show="showEdit">
                         <h2 class="center text-shadow">Edit a Question</h2>
                         <form ng-submit="submitEdit(q,edit)" class="form-group">
                             <label>Title:</label>
                             <input type="text" class="form-control" ng-model="edit.title">
                             <label>Description:</label>
-                            <textarea type="text" class="form-control" ng-model="edit.body">
-                </textarea>
-                            <!--<input type="text" ng-model="ask.tags">-->
+                            <textarea type="text" class="form-control" ng-model="edit.body"></textarea>
+                            <label>Tags:</label>
+                            <input type="text" class="form-control" ng-model="edit.tag1" placeholer="tag 1">
+                            <input type="text" class="form-control" ng-model="edit.tag2" placeholer="tag 2">
+                            <input type="text" class="form-control" ng-model="edit.tag3" placeholer="tag 3">
                             <br>
-                            <button class="btn btn-block btn-primary shadow" ng-click="showEdit = !showEdit">Submit</button>
+                            <button class="btn btn-block btn-primary shadow " ng-click="showEdit = !showEdit">Save</button>
                         </form>
                     </div>
-                    <h2 class="text-shadow">Question Title: {{q.title}} 
-                        <span class="btn-group pull-right shadow">
-                            <a class="btn btn-warning pull-right" ng-show="member.$id == q.memberId" ng-click="edit(q); showEdit = !showEdit">Edit</a>
-                            <button class="btn btn-danger shadow" ng-show="member.$id == q.memberId" ng-click="deleteQ($index)">delete</button>
-                            <a class="btn btn-primary pull-right" ui-sref='question({id: q.$id})'>More Info..</a>
-                        </span>
-                   </h2>
                     <div>
                         <img height="50px" style="border-radius:25px" src="assets/img/profile.jpg" ng-show="!q.imageUrl" alt="profile pic">
                         <img height="50px" style="border-radius:25px" ng-src="{{q.imageUrl}}" ng-show="q.imageUrl" alt="profile pic">
@@ -51,6 +54,8 @@
                                     <li class="list-group-item">Author: {{q.author}}</li>
                                     <!--<li class="list-group-item">Reputation: {{q.reputation}}</li>-->
                                     <li class="list-group-item">Posted on: {{q.posted | date: 'MM/dd/yyyy'}}</li>
+                                    <li class="list-group-item">Edited on: {{q.editedOn | date: 'MM/dd/yyyy'}}</li>
+
 
                                 </ul>
                                 <!--

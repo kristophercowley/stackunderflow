@@ -12,15 +12,16 @@ app.controller('QuestionsController', function ($rootScope, $scope, DataService)
 		$scope.questions.$remove(index);
 	}
 
+	
 	$scope.addQuestion = function (newQuestion) {
 		newQuestion.memberId = $rootScope.member.$id;
 		newQuestion.posted = Date.now();
 		newQuestion.author = $rootScope.member.username || "unknown";
 		newQuestion.imageUrl = $rootScope.member.imageUrl || "assets/img/profile.jpg";
-		// newQuestion.created = $rootScope.member.created || "unknown"
+		newQuestion.editedOn = "--"
 		// newQuestion.answeredOn;
 		newQuestion.answered = false;
-		newQuestion.tags = ["programming", "stupid question", "asking for a friend"]
+		newQuestion.tags = [ $scope.ask.tag1 || 'no tag 1', $scope.ask.tag2 || 'no tag 2', $scope.ask.tag3 || 'no tag 3'];
 		$scope.ask = null;
 		$scope.questions.$add(newQuestion).then(function (ref) {
 			//Add the newly added question to the member object	
@@ -31,19 +32,26 @@ app.controller('QuestionsController', function ($rootScope, $scope, DataService)
 			$rootScope.member.$save();
 		})
 	}
-	
+
 
 
 
 	$scope.edit = function (question) {
 		$scope.edit.title = question.title;
 		$scope.edit.body = question.body;
+		$scope.edit.tag1 = question.tag1;
+		$scope.edit.tag2 = question.tag2;
+		$scope.edit.tag3 = question.tag3;
+
+
 	}
-	$scope.submitEdit = function (q,edit) {
+	$scope.submitEdit = function (q, edit) {
 		q.title = edit.title;
 		q.body = edit.body;
+		q.tags = [edit.tag1, edit.tag2, edit.tag3] || q.tags;
 		q.editedOn = Date.now();
 		q.edited = true;
+
 		$scope.questions.$save(q)
 
 	}

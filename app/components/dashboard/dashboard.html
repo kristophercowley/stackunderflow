@@ -6,7 +6,7 @@
 <p>Try rendering to the screen all of the fields that will eventually be added to the $rootScope.member object</p>
 <p>For the MemberObject Schema look at the comments on this file</p>-->
 
-<form ng-submit="editMember()" class="form-group" ng-show="showSubmit">
+<form onsubmit="parent.scrollTo(0, 0); return true" ng-submit="editMember()" class="form-group" ng-show="showSubmit">
 	<label>Username</label>
 	<input placeholder="Username" type="text" class="form-control" ng-model="member.username">
 	<label>First Name</label>
@@ -28,7 +28,7 @@
 	<label>Favorite Tags</label>
 	<input placeholder="Favorite Tags" type="text" class="form-control" ng-model="member.favoriteTags">
 	<div class="btn-group">
-		<button class="btn btn-primary" type="submit">Submit</button>
+		<button class="btn btn-primary" type="submit" ng-click="showSubmit = !showSubmit">Submit</button>
 	</div>
 </form>
 <!--

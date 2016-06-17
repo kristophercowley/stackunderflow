@@ -28,7 +28,7 @@
                     <p>Written by: {{question.author}}</p>
                     <div class="btn-group pull-right">
                         <button class="btn btn-default glyphicon glyphicon-minus" ng-click="takeVote(question,-1)"></button>
-                        <button class="btn btn-default">-{{question.voteCount}}-</button>
+                        <button class="btn btn-default"> {{question.voteCount}} </button>
                         <button class="btn btn-default glyphicon glyphicon-plus" ng-click="takeVote(question,1)"></button>
                     </div>
                     <hr>

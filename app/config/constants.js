@@ -1,5 +1,7 @@
 app.constant('CONSTANTS', (function(){ 
-	var root = 'https://stackunderflow.firebaseio.com/';
+	var root = 'https://stuckunderflow.firebaseio.com/';
+
+	// var root = 'https://stackunderflow.firebaseio.com/';
 	var questions = root + 'questions/'
 	var tags = root + 'tags/' 
 	
